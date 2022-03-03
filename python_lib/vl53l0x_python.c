@@ -52,7 +52,6 @@ void print_pal_error(VL53L0X_Error Status)
 {
     char buf[VL53L0X_MAX_STRING_LENGTH];
     VL53L0X_GetPalErrorString(Status, buf);
-    printf("API Status: %i : %s\n", Status, buf);
 }
 
 VL53L0X_Error WaitMeasurementDataReady(VL53L0X_DEV Dev)
@@ -220,24 +219,8 @@ VL53L0X_Dev_t *initialise(uint8_t i2c_address, uint8_t TCA9548A_Device, uint8_t 
                                     printf ("Call of VL53L0X_PerformRefSpadManagement\n");
                                 }
                             }
-                            else
-                            {
-                                printf ("Call of VL53L0X_PerformRefCalibration\n");
-                            }
-                        }
-                        else
-                        {
-                            printf ("Call of VL53L0X_StaticInit\n");
                         }
                     }
-                    else
-                    {
-                        printf ("Invalid Device Info\n");
-                    }
-                }
-                else
-                {
-                    printf ("Call of VL53L0X_DataInit\n");
                 }
             }
             else
@@ -246,17 +229,10 @@ VL53L0X_Dev_t *initialise(uint8_t i2c_address, uint8_t TCA9548A_Device, uint8_t 
                 printf("Call of VL53L0X_GetVersion\n");
             }
         }
-        else
-        {
-            printf("Call of VL53L0X_SetAddress\n");
-        }
 
         print_pal_error(Status);
     }
-    else
-    {
-        printf("Memory allocation failure\n");
-    }
+
 
     return dev;
 }
@@ -387,7 +363,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
 
             case VL53L0X_GOOD_ACCURACY_MODE:
             default:
-                printf("VL53L0X_GOOD_ACCURACY_MODE\n");
                 if (Status == VL53L0X_ERROR_NONE)
                 {
                     Status =
@@ -400,14 +375,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
         {
             Status = VL53L0X_StartMeasurement(dev);
         }
-        else
-        {
-            printf("Set Accuracy\n");
-        }
-    }
-    else
-    {
-        printf ("Call of VL53L0X_SetDeviceMode\n");
     }
 
     print_pal_error(Status);
@@ -477,9 +444,5 @@ void stopRanging(VL53L0X_Dev_t *dev)
 
         free(dev);
         dev = NULL;
-    }
-    else
-    {
-        printf("Device not initialized\n");
     }
 }
