@@ -70,7 +70,6 @@ static int i2c_write(VL53L0X_DEV Dev, uint8_t cmd,
             // specified
             if (i2c_write_func(Dev->TCA9548A_Address, (1 << Dev->TCA9548A_Device), NULL, 0) < 0)
             {
-                printf("TCA9548A write error\n");
                 result = VL53L0X_ERROR_CONTROL_INTERFACE;
             }
         }
@@ -117,7 +116,6 @@ static int i2c_read(VL53L0X_DEV Dev, uint8_t cmd,
             // specified
             if (i2c_write_func(Dev->TCA9548A_Address, (1 << Dev->TCA9548A_Device), NULL, 0) < 0)
             {
-                printf("TCA9548A read error\n");
                 result =  VL53L0X_ERROR_CONTROL_INTERFACE;
             }
         }
