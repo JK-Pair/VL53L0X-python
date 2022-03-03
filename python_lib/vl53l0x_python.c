@@ -138,16 +138,6 @@ VL53L0X_Dev_t *initialise(uint8_t i2c_address, uint8_t TCA9548A_Device, uint8_t 
     VL53L0X_DeviceInfo_t                DeviceInfo;
     int32_t status_int;
 
-    if (TCA9548A_Device < 8)
-    {
-        printf ("VL53L0X Start Ranging Address 0x%02X TCA9548A Device %d TCA9548A Address 0x%02X\n\n",
-                    i2c_address, TCA9548A_Device, TCA9548A_Address);
-    }
-    else
-    {
-        printf ("VL53L0X Start Ranging Address 0x%02X\n\n", i2c_address);
-    }
-
     VL53L0X_Dev_t *dev = (VL53L0X_Dev_t *)malloc(sizeof(VL53L0X_Dev_t));
     memset(dev, 0, sizeof(VL53L0X_Dev_t));
 
@@ -203,13 +193,6 @@ VL53L0X_Dev_t *initialise(uint8_t i2c_address, uint8_t TCA9548A_Device, uint8_t 
                     Status = VL53L0X_GetDeviceInfo(dev, &DeviceInfo);
                     if(Status == VL53L0X_ERROR_NONE)
                     {
-                        printf("VL53L0X_GetDeviceInfo:\n");
-                        printf("Device Name : %s\n", DeviceInfo.Name);
-                        printf("Device Type : %s\n", DeviceInfo.Type);
-                        printf("Device ID : %s\n", DeviceInfo.ProductId);
-                        printf("ProductRevisionMajor : %d\n", DeviceInfo.ProductRevisionMajor);
-                        printf("ProductRevisionMinor : %d\n", DeviceInfo.ProductRevisionMinor);
-
                         if ((DeviceInfo.ProductRevisionMajor != 1) && (DeviceInfo.ProductRevisionMinor != 1)) {
                             printf("Error expected cut 1.1 but found cut %d.%d\n",
                                     DeviceInfo.ProductRevisionMajor, DeviceInfo.ProductRevisionMinor);
@@ -317,7 +300,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
         switch (mode)
         {
             case VL53L0X_BEST_ACCURACY_MODE:
-                printf("VL53L0X_BEST_ACCURACY_MODE\n");
                 if (Status == VL53L0X_ERROR_NONE)
                 {
                     Status = VL53L0X_SetLimitCheckValue(dev,
@@ -340,7 +322,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
                 break;
 
             case VL53L0X_LONG_RANGE_MODE:
-                printf("VL53L0X_LONG_RANGE_MODE\n");
                 if (Status == VL53L0X_ERROR_NONE)
                 {
                     Status = VL53L0X_SetLimitCheckValue(dev,
@@ -375,7 +356,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
                 break;
 
             case VL53L0X_HIGH_SPEED_MODE:
-                printf("VL53L0X_HIGH_SPEED_MODE\n");
                 if (Status == VL53L0X_ERROR_NONE)
                 {
                     Status = VL53L0X_SetLimitCheckValue(dev,
@@ -398,7 +378,6 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
                 break;
 
             case VL53L0X_BETTER_ACCURACY_MODE:
-                printf("VL53L0X_BETTER_ACCURACY_MODE\n");
                 if (Status == VL53L0X_ERROR_NONE)
                 {
                     Status =
@@ -479,15 +458,12 @@ void stopRanging(VL53L0X_Dev_t *dev)
 {
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
 
-    printf ("Call of VL53L0X_StopMeasurement\n");
-
     if (dev != NULL)
     {
         Status = VL53L0X_StopMeasurement(dev);
 
         if(Status == VL53L0X_ERROR_NONE)
         {
-            printf ("Wait for stop to be completed\n");
             Status = WaitStopCompleted(dev);
         }
 
