@@ -389,7 +389,7 @@ VL53L0X_Error startRanging(VL53L0X_Dev_t *dev, int mode)
 int32_t getDistance(VL53L0X_Dev_t *dev)
 {
     VL53L0X_Error Status = VL53L0X_ERROR_NONE;
-    int32_t current_distance = -1;
+    int32_t current_distance = 0;
 
     if (dev != NULL)
     {
